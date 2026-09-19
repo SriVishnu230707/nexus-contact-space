@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Keeper</title>
+  <style>
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,sans-serif;background:#f3f6fb;color:#172033} main{width:min(960px,92%);margin:48px auto} h1{margin-bottom:6px}.muted{color:#65738a}.panel{background:white;border:1px solid #dfe6f0;border-radius:18px;padding:20px;box-shadow:0 12px 40px #20365b12}.form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin:24px 0}input,button{padding:12px;border-radius:10px;font:inherit}input{border:1px solid #cdd7e5}button{border:0;background:#315efb;color:white;font-weight:700;cursor:pointer}.search{width:100%;margin-bottom:16px}.contact{display:flex;justify-content:space-between;align-items:center;padding:14px;border-top:1px solid #edf0f5}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#e7ecff;color:#315efb;font-weight:800}.identity{display:flex;gap:12px;align-items:center}.delete{background:#fff0f0;color:#d33}.empty{text-align:center;padding:35px;color:#65738a}@media(max-width:680px){.form{grid-template-columns:1fr}.contact{align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <main><h1>Contact Keeper</h1><p class="muted">A small browser-based contact manager.</p><section class="panel"><form class="form" id="form"><input id="name" placeholder="Name" required><input id="email" type="email" placeholder="Email" required><button>Add contact</button></form><input class="search" id="search" placeholder="Search contacts"><div id="list"></div></section></main>
+  <script>
+    const seed=[{name:'Asha Rao',email:'asha@example.com'},{name:'Nikhil Das',email:'nikhil@example.com'}];
+    let contacts=JSON.parse(localStorage.getItem('contacts')||'null')||seed;
+    const save=()=>localStorage.setItem('contacts',JSON.stringify(contacts));
+    function render(){const q=search.value.toLowerCase();const rows=contacts.filter(c=>(c.name+c.email).toLowerCase().includes(q));list.innerHTML=rows.length?rows.map((c,i)=>'<div class="contact"><div class="identity"><div class="avatar">'+c.name[0].toUpperCase()+'</div><div><strong>'+c.name+'</strong><div class="muted">'+c.email+'</div></div></div><button class="delete" data-index="'+i+'">Delete</button></div>').join(''):'<div class="empty">No matching contacts</div>';document.querySelectorAll('.delete').forEach(b=>b.onclick=()=>removeContact(Number(b.dataset.index)))}
+    function removeContact(i){contacts.splice(i,1);save();render()} form.onsubmit=e=>{e.preventDefault();contacts.push({name:name.value.trim(),email:email.value.trim()});save();form.reset();render()};search.oninput=render;render();
+  </script>
+</body>
+</html>
