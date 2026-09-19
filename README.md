@@ -1,31 +1,24 @@
-# Contact Keeper
+# Nexus — 3D Contact Space
 
-A lightweight contact-management UI built as a single browser page. Contacts can be added, searched and removed, and the data is stored locally in the browser with `localStorage`.
+A clean, customer-ready contact manager presented as a responsive spatial network.
 
-## Features
+## Highlights
 
-- Add contacts with name and email validation
-- Search by name or email
-- Delete contacts
-- Persistent browser storage
-- Responsive, dependency-free interface
+- Add, search, and delete contacts instantly
+- Persistent browser storage with sensible demo contacts
+- Safe DOM rendering using `textContent`
+- Pure-CSS 3D network sphere, orbit, and floating profiles
+- Premium light visual system with responsive mobile layouts
+- Keyboard-friendly forms and reduced-motion support
 
 ## Run locally
-
-Open `index.html` directly in a modern browser, or run a local static server:
 
 ```bash
 python -m http.server 8000
 ```
 
-Visit `http://localhost:8000`.
+Open `http://localhost:8000`.
 
-## Project structure
+## Stack
 
-```text
-.
-├── index.html   # Complete contact manager UI and logic
-└── README.md    # Documentation
-```
-
-The older `Contact-Management-System-In-PYTHON-master` item is an empty placeholder retained from the original repository history. The working demonstration is `index.html`.
+Semantic HTML, modern CSS, vanilla JavaScript, and localStorage. The older `Contact-Management-System-In-PYTHON-master` directory is an empty placeholder retained from the repository's original history.
