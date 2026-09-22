@@ -138,6 +138,16 @@ function cleanContact(value, partial = false) {
 function createServer({ store = new ContactStore(), indexFile = INDEX_FILE } = {}) {
   return http.createServer(async (request, response) => {
     const url = new URL(request.url, 'http://localhost');
+    const routeParam = url.searchParams.get('route');
+    let pathname = url.pathname;
+
+    if (routeParam !== null && routeParam !== undefined) {
+      pathname = routeParam ? '/api/' + routeParam.replace(/^\/+/, '') : '/api';
+    } else if (request.headers['x-matched-path']) {
+      pathname = request.headers['x-matched-path'];
+    } else if (request.headers['x-forwarded-uri']) {
+      pathname = new URL(request.headers['x-forwarded-uri'], 'http://localhost').pathname;
+    }
 
     // CORS preflight
     if (request.method === 'OPTIONS') {
@@ -151,22 +161,22 @@ function createServer({ store = new ContactStore(), indexFile = INDEX_FILE } = {
     }
 
     try {
-      if (request.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) {
+      if (request.method === 'GET' && (pathname === '/' || pathname === '/index.html')) {
         const html = await fs.readFile(indexFile);
         response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'X-Content-Type-Options': 'nosniff' });
         return response.end(html);
       }
 
-      if (request.method === 'GET' && url.pathname === '/favicon.ico') {
+      if (request.method === 'GET' && (pathname === '/favicon.ico' || pathname === '/api/favicon.ico')) {
         response.writeHead(200, { 'Content-Type': 'image/svg+xml', 'Cache-Control': 'public, max-age=86400' });
         return response.end('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="10" fill="#6657e8"/><circle cx="16" cy="16" r="6" fill="#fff"/></svg>');
       }
 
-      if (request.method === 'GET' && url.pathname === '/api/health') {
+      if (request.method === 'GET' && pathname === '/api/health') {
         return json(response, 200, { status: 'ok', service: 'nexus-contact-api', timestamp: new Date().toISOString() });
       }
 
-      if (request.method === 'GET' && url.pathname === '/api/contacts') {
+      if (request.method === 'GET' && pathname === '/api/contacts') {
         const query = (url.searchParams.get('q') || '').trim().toLowerCase();
         const sort = (url.searchParams.get('sort') || '').trim().toLowerCase();
         let contacts = await store.read();
@@ -183,7 +193,7 @@ function createServer({ store = new ContactStore(), indexFile = INDEX_FILE } = {
         return json(response, 200, { contacts, total: contacts.length });
       }
 
-      if (request.method === 'POST' && url.pathname === '/api/contacts') {
+      if (request.method === 'POST' && pathname === '/api/contacts') {
         const input = cleanContact(await readJson(request));
         const contacts = await store.read();
         if (contacts.some(contact => contact.email === input.email)) {
@@ -195,7 +205,7 @@ function createServer({ store = new ContactStore(), indexFile = INDEX_FILE } = {
         return json(response, 201, { contact });
       }
 
-      const match = url.pathname.match(/^\/api\/contacts\/([^/]+)$/);
+      const match = pathname.match(/^\/api\/contacts\/([^/]+)$/);
       if (match) {
         const contactId = decodeURIComponent(match[1]);
 
