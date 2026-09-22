@@ -1,0 +1,26 @@
+[
+  {
+    "id": "dfb15585-25e0-46a0-b1f0-982ac156a0e4",
+    "name": "Ava Morgan",
+    "email": "ava@northstar.co",
+    "role": "Product lead",
+    "phone": "+1 415 555 0192",
+    "createdAt": "2026-09-22T13:39:36.375Z"
+  },
+  {
+    "id": "65b51511-5210-42dc-aa0e-17f3a5edaa78",
+    "name": "Samir Khan",
+    "email": "samir@atelier.dev",
+    "role": "Creative developer",
+    "phone": "+1 415 555 0148",
+    "createdAt": "2026-09-22T13:39:36.377Z"
+  },
+  {
+    "id": "97888ccd-87c3-4d7a-be1b-f7f7398bf188",
+    "name": "June Lee",
+    "email": "june@studio.one",
+    "role": "Design director",
+    "phone": "+1 415 555 0167",
+    "createdAt": "2026-09-22T13:39:36.377Z"
+  }
+]

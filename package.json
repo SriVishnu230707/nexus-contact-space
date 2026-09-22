@@ -6,6 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "test": "node test_api.js",
     "check": "node --check server.js"
   },
   "engines": {

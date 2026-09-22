@@ -2,41 +2,2303 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Nexus — a refined 3D contact workspace.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nexus — a refined 3D contact workspace with interactive constellation engine and REST API.">
   <title>Nexus — 3D Contact Space</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#132039;--muted:#69758d;--line:#e7eaf1;--paper:rgba(255,255,255,.74);--violet:#6657e8;--cyan:#18bccc;--coral:#ff765f;--shadow:0 24px 70px rgba(32,42,77,.13)}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ink);font:500 15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f7f7fb;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at 8% 10%,rgba(126,231,240,.32),transparent 27%),radial-gradient(circle at 90% 24%,rgba(148,126,255,.24),transparent 31%),linear-gradient(135deg,#fbfcff,#f3f2fa)}body:after{content:"";position:fixed;inset:0;z-index:-1;opacity:.36;background-image:radial-gradient(#aeb5c5 .7px,transparent .7px);background-size:21px 21px;mask-image:linear-gradient(90deg,black,transparent 78%)}
-    button,input{font:inherit}.shell{width:min(1180px,calc(100% - 36px));margin:auto}.nav{height:82px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.025em}.logo{width:33px;aspect-ratio:1;border-radius:12px;background:linear-gradient(145deg,#978bff,var(--violet));box-shadow:0 10px 25px rgba(102,87,232,.28);position:relative;transform:rotate(-7deg)}.logo:after{content:"";position:absolute;inset:9px;border:2px solid white;border-radius:50%}.status{padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.62);color:var(--muted);font-size:13px;box-shadow:0 8px 26px rgba(30,42,80,.05)}.status:before{content:"";display:inline-block;width:7px;aspect-ratio:1;border-radius:50%;margin-right:7px;background:#29bf75;box-shadow:0 0 10px #29bf7588}.status.offline:before{background:#ef8c4f;box-shadow:none}
-    .hero{padding:58px 0 66px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px}.eyebrow{text-transform:uppercase;letter-spacing:.18em;color:var(--violet);font-weight:850;font-size:11px}.hero h1{font-size:clamp(52px,6.8vw,88px);line-height:.94;letter-spacing:-.075em;margin:18px 0}.hero h1 span{color:var(--violet)}.hero p{font-size:18px;color:var(--muted);max-width:590px}.search{display:flex;gap:10px;margin-top:28px;padding:7px;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.7);box-shadow:var(--shadow);max-width:540px}.search input{flex:1;border:0;outline:0;background:transparent;padding:9px 12px;color:var(--ink)}.search button,.add{border:0;border-radius:12px;padding:12px 17px;color:#fff;background:linear-gradient(135deg,#8072f4,var(--violet));font-weight:800;cursor:pointer;box-shadow:0 11px 24px rgba(102,87,232,.23)}
-    .universe{height:440px;position:relative;display:grid;place-items:center;perspective:900px}.sphere{width:230px;aspect-ratio:1;border-radius:50%;position:relative;transform-style:preserve-3d;background:radial-gradient(circle at 31% 24%,#fff 0 3%,#baffff 9%,#88dfe9 22%,#8274ed 60%,#3a2e98 100%);box-shadow:inset -35px -36px 62px rgba(39,29,128,.46),0 36px 60px rgba(68,55,177,.22);animation:float 5.5s ease-in-out infinite}.orbit{position:absolute;inset:-32%;border:1.5px solid rgba(102,87,232,.35);border-radius:50%;transform:rotateX(67deg) rotateZ(-18deg)}.avatar{position:absolute;width:52px;aspect-ratio:1;border-radius:18px;border:4px solid rgba(255,255,255,.85);box-shadow:0 16px 30px rgba(53,55,102,.22);display:grid;place-items:center;color:#fff;font-weight:900;font-size:13px}.a1{background:#ff8e77;left:-30%;top:2%;transform:translateZ(60px)}.a2{background:#2dbfce;right:-38%;top:38%;transform:translateZ(90px)}.a3{background:#8477ef;left:-20%;bottom:-8%;transform:translateZ(110px)}.tag{position:absolute;right:-44%;top:4%;padding:12px 15px;border:1px solid rgba(255,255,255,.8);border-radius:15px;background:rgba(255,255,255,.68);backdrop-filter:blur(16px);box-shadow:var(--shadow);font-size:12px;color:var(--muted)}.tag strong{display:block;color:var(--ink);font-size:17px}
-    .workspace{padding:10px 0 80px;display:grid;grid-template-columns:330px 1fr;gap:18px}.panel{background:var(--paper);border:1px solid rgba(255,255,255,.9);border-radius:25px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(20px)}.panel h2{margin:0 0 17px;font-size:18px;letter-spacing:-.03em}.form{display:grid;gap:10px}.form input{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 13px;outline:0}.form input:focus{border-color:#a79df5;box-shadow:0 0 0 4px rgba(102,87,232,.09)}.add{margin-top:3px}.contacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:45px}.person{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);background:rgba(255,255,255,.82);border-radius:17px;transition:.25s}.person:hover{transform:translateY(-4px) rotateX(2deg);box-shadow:0 16px 28px rgba(35,45,80,.09)}.person .initial{width:43px;aspect-ratio:1;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#8e82f4,#5e50d8);color:#fff;font-weight:900}.person .info{min-width:0;flex:1}.person b,.person small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.person small{color:var(--muted)}.delete{border:0;background:#fff0ed;color:#d34b37;width:33px;aspect-ratio:1;border-radius:10px;cursor:pointer}
-    @keyframes float{50%{transform:translateY(-14px) rotateY(8deg)}}@media(max-width:850px){.hero{grid-template-columns:1fr;text-align:center}.hero p,.search{margin-left:auto;margin-right:auto}.universe{height:390px}.workspace{grid-template-columns:1fr}.contacts{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.shell{width:calc(100% - 24px)}.nav{height:70px}.hero{padding-top:36px}.hero h1{font-size:49px}.universe{height:330px}.sphere{width:170px}.avatar{width:44px;border-radius:14px}.tag{right:-52%}.contacts{grid-template-columns:1fr}.search{flex-direction:column}.search button{width:100%}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+    :root {
+      --bg: #0b0f19;
+      --bg-surface: rgba(18, 24, 38, 0.72);
+      --bg-card: rgba(23, 32, 51, 0.85);
+      --bg-card-hover: rgba(30, 42, 68, 0.95);
+      --ink: #f1f5f9;
+      --ink-dim: #94a3b8;
+      --ink-muted: #64748b;
+      --line: rgba(255, 255, 255, 0.08);
+      --line-bright: rgba(255, 255, 255, 0.18);
+      --violet: #818cf8;
+      --violet-glow: rgba(129, 140, 248, 0.35);
+      --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.3);
+      --emerald: #34d399;
+      --coral: #f87171;
+      --amber: #fbbf24;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 35px rgba(129, 140, 248, 0.22);
+      --font-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --font-display: 'Space Grotesk', var(--font-body);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      line-height: 1.55;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15), transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(56, 189, 248, 0.13), transparent 42%),
+        radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.08), transparent 50%),
+        linear-gradient(180deg, #090d16 0%, #0c121e 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient animated noise & mesh overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    button, input, select {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .shell {
+      width: min(1280px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* Navigation */
+    .nav {
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 15, 25, 0.65);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #38bdf8);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+      position: relative;
+    }
+
+    .logo-mark svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 3px 8px;
+      background: rgba(129, 140, 248, 0.15);
+      border: 1px solid rgba(129, 140, 248, 0.3);
+      color: var(--violet);
+      border-radius: var(--radius-full);
+      margin-left: 6px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--ink-dim);
+      transition: all 0.2s ease;
+    }
+
+    .status-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      transition: all 0.3s ease;
+    }
+
+    .status-badge.offline .dot {
+      background: var(--amber);
+      box-shadow: 0 0 10px var(--amber);
+    }
+
+    .status-badge .reconnect-btn {
+      background: none;
+      border: none;
+      color: var(--violet);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-left: 4px;
+      display: none;
+    }
+
+    .status-badge.offline .reconnect-btn {
+      display: inline;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--line-bright);
+    }
+
+    /* Hero & 3D Interactive Space */
+    .hero {
+      padding: 44px 0 54px;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .hero-content {
+      max-width: 540px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 11px;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow-line {
+      width: 24px;
+      height: 2px;
+      background: var(--cyan);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 5.2vw, 68px);
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #a5b4fc 0%, #38bdf8 50%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--ink-dim);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* Search Network Bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: rgba(23, 32, 51, 0.7);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-md);
+      padding: 6px 6px 6px 14px;
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+      backdrop-filter: blur(12px);
+      gap: 10px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2), var(--shadow-md);
+    }
+
+    .search-icon {
+      color: var(--ink-muted);
+      display: grid;
+      place-items: center;
+    }
+
+    .search-bar input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .search-bar input::placeholder {
+      color: var(--ink-muted);
+    }
+
+    .clear-search-btn {
+      background: none;
+      border: none;
+      color: var(--ink-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: none;
+      border-radius: 50%;
+    }
+
+    .clear-search-btn:hover { color: var(--ink); }
+
+    .search-btn {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 11px 20px;
+      border-radius: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .search-btn:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+    }
+
+    /* 3D Universe Container */
+    .universe-wrap {
+      position: relative;
+      height: 480px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at center, rgba(30, 41, 69, 0.45) 0%, rgba(11, 15, 25, 0.8) 100%);
+      border: 1px solid var(--line-bright);
+      box-shadow: var(--shadow-lg), inset 0 0 60px rgba(99, 102, 241, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .universe-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .universe-canvas:active {
+      cursor: grabbing;
+    }
+
+    /* 3D Overlay Controls */
+    .universe-hud-top {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .hud-stat {
+      padding: 8px 14px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-full);
+      backdrop-filter: blur(12px);
+      font-size: 12.5px;
+      color: var(--ink-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-stat strong {
+      color: var(--ink);
+    }
+
+    .hud-controls {
+      display: flex;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .hud-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--line);
+      color: var(--ink-dim);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .hud-btn:hover {
+      color: var(--ink);
+      border-color: var(--violet);
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    .universe-hint {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: var(--ink-muted);
+      background: rgba(11, 15, 25, 0.7);
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--line);
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Floating 3D Node Tooltip */
+    .node-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid var(--violet);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px var(--violet-glow);
+      backdrop-filter: blur(16px);
+      z-index: 30;
+      opacity: 0;
+      transform: translate(-50%, -120%) scale(0.92);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .node-tooltip.visible {
+      opacity: 1;
+      transform: translate(-50%, -120%) scale(1);
+    }
+
+    .node-tooltip-title {
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .node-tooltip-sub {
+      font-size: 12px;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+
+    .node-tooltip-meta {
+      font-size: 11.5px;
+      color: var(--ink-muted);
+    }
+
+    /* Workspace Section */
+    .workspace {
+      padding: 10px 0 80px;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel-badge {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 9px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-full);
+      color: var(--ink-dim);
+    }
+
+    /* Form Styles */
+    .form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .input-group {
+      display: grid;
+      gap: 6px;
+    }
+
+    .input-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink-dim);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .input-optional {
+      color: var(--ink-muted);
+      font-weight: 400;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: var(--ink-muted);
+      pointer-events: none;
+      display: grid;
+      place-items: center;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(11, 15, 25, 0.7);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px 12px 42px;
+      color: var(--ink);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
+      background: rgba(15, 22, 38, 0.95);
+    }
+
+    .submit-btn {
+      margin-top: 8px;
+      background: linear-gradient(135deg, #6366f1, #38bdf8);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: white;
+      font-weight: 700;
+      padding: 13px;
+      font-size: 14.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(99, 102, 241, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.45);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Filters and Sorters */
+    .network-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--ink-dim);
+      padding: 6px 13px;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .filter-pill:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: var(--ink);
+    }
+
+    .filter-pill.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--violet);
+      color: var(--ink);
+    }
+
+    .sort-select {
+      background: rgba(11, 15, 25, 0.8);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      color: var(--ink-dim);
+      padding: 6px 12px;
+      font-size: 12.5px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Contacts Grid */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      border: 2px dashed var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(11, 15, 25, 0.3);
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      color: var(--ink-muted);
+      margin-bottom: 14px;
+    }
+
+    .empty-state h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      color: var(--ink-muted);
+      font-size: 14px;
+    }
+
+    /* Contact Card */
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .contact-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--line-bright);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .contact-card.highlighted {
+      border-color: var(--violet);
+      box-shadow: 0 0 0 2px var(--violet), 0 16px 36px rgba(99, 102, 241, 0.3);
+      animation: cardPulse 1.8s ease-in-out;
+    }
+
+    @keyframes cardPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.025); }
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .card-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .card-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--ink);
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-role {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: var(--radius-full);
+      padding: 2px 8px;
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .card-details {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--ink-dim);
+      padding-top: 4px;
+      border-top: 1px solid var(--line);
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .detail-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--ink-dim);
+      transition: color 0.15s;
+    }
+
+    .detail-link:hover {
+      color: var(--ink);
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--ink-muted);
+      cursor: pointer;
+      padding: 3px;
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover {
+      color: var(--cyan);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      padding-top: 4px;
+    }
+
+    .action-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink-dim);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+
+    .action-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--ink);
+      border-color: var(--line-bright);
+    }
+
+    .action-btn.edit:hover {
+      border-color: var(--violet);
+      color: var(--violet);
+    }
+
+    .action-btn.delete {
+      color: #f87171;
+    }
+
+    .action-btn.delete:hover {
+      background: rgba(248, 113, 113, 0.15);
+      border-color: rgba(248, 113, 113, 0.4);
+    }
+
+    .action-btn.orbit-focus:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* Edit Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 15, 0.8);
+      backdrop-filter: blur(16px);
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #111728;
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-lg);
+      width: min(520px, 100%);
+      padding: 28px;
+      box-shadow: var(--shadow-lg), 0 0 50px rgba(99, 102, 241, 0.25);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--ink-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+    }
+
+    .modal-close:hover { color: var(--ink); }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    /* Delete Confirmation Modal */
+    .confirm-dialog {
+      width: min(420px, 100%);
+      background: #151a2a;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-lg), 0 0 40px rgba(248, 113, 113, 0.2);
+    }
+
+    .confirm-dialog h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--coral);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .confirm-dialog p {
+      color: var(--ink-dim);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-danger:hover { background: #dc2626; }
+
+    /* Toast Notification Container */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 200;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid var(--line-bright);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      color: var(--ink);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13.5px;
+      font-weight: 500;
+      pointer-events: auto;
+      animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      max-width: 380px;
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--emerald);
+      box-shadow: 0 8px 24px rgba(52, 211, 153, 0.2);
+    }
+
+    .toast.error {
+      border-left: 4px solid var(--coral);
+      box-shadow: 0 8px 24px rgba(248, 113, 113, 0.2);
+    }
+
+    .toast.info {
+      border-left: 4px solid var(--violet);
+      box-shadow: 0 8px 24px rgba(129, 140, 248, 0.2);
+    }
+
+    .toast.fade-out {
+      animation: toastOut 0.25s forwards;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateX(50px) scale(0.9); opacity: 0; }
+      to { transform: translateX(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes toastOut {
+      from { transform: translateX(0) scale(1); opacity: 1; }
+      to { transform: translateX(50px) scale(0.9); opacity: 0; }
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 36px;
+      }
+      .hero-content {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      .eyebrow {
+        justify-content: center;
+      }
+      .search-bar {
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .universe-wrap {
+        height: 420px;
+      }
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: calc(100% - 28px); }
+      .nav { height: 72px; }
+      .brand { font-size: 18px; }
+      .brand-tag { display: none; }
+      .hero { padding: 28px 0 40px; }
+      .hero h1 { font-size: 38px; }
+      .universe-wrap { height: 350px; }
+      .search-bar { flex-direction: column; padding: 10px; gap: 8px; }
+      .search-btn { width: 100%; justify-content: center; }
+      .search-bar input { width: 100%; }
+      .contacts-grid { grid-template-columns: 1fr; }
+      .panel { padding: 20px; }
+      .toast-container { left: 14px; right: 14px; bottom: 14px; }
+      .toast { max-width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
-  <header class="shell nav"><div class="brand"><span class="logo"></span>NEXUS</div><span class="status offline" id="status"><span id="count">0</span> people · <span id="mode">connecting</span></span></header>
+
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="shell nav" style="border:none; height:100%; position:static;">
+      <div class="brand">
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/></svg>
+        </span>
+        NEXUS
+        <span class="brand-tag">Constellation 3D</span>
+      </div>
+      <div class="nav-actions">
+        <button type="button" class="btn-secondary" id="export-json-btn" title="Export contacts JSON">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <div class="status-badge" id="api-status-badge">
+          <span class="dot"></span>
+          <span id="api-status-text">Connecting...</span>
+          <button type="button" class="reconnect-btn" id="reconnect-btn">Retry</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
   <main>
+    <!-- Hero with 3D Constellation Sphere -->
     <section class="shell hero">
-      <div><div class="eyebrow">Relationships, beautifully organized</div><h1>Your people.<br><span>One orbit.</span></h1><p>A refined contact space that makes every connection feel close, clear, and effortless to find.</p><div class="search"><input id="search" aria-label="Search contacts" placeholder="Search name or email…"><button type="button">Search network</button></div></div>
-      <div class="universe" aria-label="3D contact network"><div class="sphere"><div class="orbit"></div><span class="avatar a1">AM</span><span class="avatar a2">SK</span><span class="avatar a3">JL</span><div class="tag">Network health<strong>98% strong</strong></div></div></div>
+      <div class="hero-content">
+        <div class="eyebrow">
+          <span class="eyebrow-line"></span>
+          <span>Spatial Network Intelligence</span>
+        </div>
+        <h1>Your network in <br><span class="gradient-text">three dimensions.</span></h1>
+        <p>A dynamic spatial workspace that maps your connections into an interactive orbital constellation with persistent REST synchronization.</p>
+        
+        <div class="search-bar">
+          <span class="search-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input id="search-input" aria-label="Search contacts" placeholder="Search by name, email, role, or phone...">
+          <button type="button" class="clear-search-btn" id="clear-search-btn" aria-label="Clear search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <button type="button" class="search-btn" id="search-network-btn">
+            <span>Search network</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive 3D Canvas Showcase -->
+      <div class="universe-wrap" id="universe-wrap" aria-label="Interactive 3D Constellation Sphere">
+        <div class="universe-hud-top">
+          <div class="hud-stat">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            <span>Satellites: <strong id="satellite-count">0</strong></span>
+          </div>
+          <div class="hud-controls">
+            <button type="button" class="hud-btn" id="toggle-spin-btn" title="Toggle Auto-Rotation">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </button>
+            <button type="button" class="hud-btn" id="reset-view-btn" title="Reset 3D Perspective">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M3 12h3M18 12h3M12 3v3M12 18v3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <canvas class="universe-canvas" id="universe-canvas"></canvas>
+
+        <div class="universe-hint">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M7 7l10 10M17 7L7 17"/></svg>
+          <span>Drag to rotate • Scroll to zoom • Click node to focus</span>
+        </div>
+
+        <!-- 3D Node Hover Tooltip -->
+        <div class="node-tooltip" id="node-tooltip">
+          <div class="node-tooltip-title" id="tooltip-name"></div>
+          <div class="node-tooltip-sub" id="tooltip-role"></div>
+          <div class="node-tooltip-meta" id="tooltip-meta"></div>
+        </div>
+      </div>
     </section>
+
+    <!-- Main Workspace -->
     <section class="shell workspace">
-      <aside class="panel"><h2>Add a connection</h2><form class="form" id="form"><input id="name" required maxlength="50" placeholder="Full name"><input id="email" required maxlength="80" type="email" placeholder="Email address"><input id="role" maxlength="50" placeholder="Role or company"><button class="add">Add to network</button></form></aside>
-      <section class="panel"><h2>Your network</h2><div class="contacts" id="contacts"></div></section>
+      <!-- Add Contact Panel -->
+      <aside class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/><line x1="19" y1="11" x2="19" y2="17"/><line x1="16" y1="14" x2="22" y2="14"/></svg>
+            Add Connection
+          </h2>
+        </div>
+
+        <form class="form" id="create-contact-form">
+          <div class="input-group">
+            <label class="input-label" for="new-name">Full name</label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+              </span>
+              <input class="input-field" id="new-name" required maxlength="50" placeholder="e.g. Maya Lin">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="new-email">Email address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input class="input-field" id="new-email" required type="email" maxlength="80" placeholder="maya@studio.design">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="new-role">
+              Role or Company
+              <span class="input-optional">optional</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </span>
+              <input class="input-field" id="new-role" maxlength="50" placeholder="e.g. Design Architect">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="new-phone">
+              Phone number
+              <span class="input-optional">optional</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <input class="input-field" id="new-phone" maxlength="30" placeholder="+1 (555) 019-2831">
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn" id="add-contact-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add to Orbit
+          </button>
+        </form>
+      </aside>
+
+      <!-- Network Explorer Panel -->
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Network Mesh
+            <span class="panel-badge" id="visible-count-badge">0</span>
+          </h2>
+
+          <select class="sort-select" id="sort-select" aria-label="Sort contacts">
+            <option value="newest">Sort: Newest</option>
+            <option value="name">Sort: Name (A-Z)</option>
+            <option value="oldest">Sort: Oldest</option>
+          </select>
+        </div>
+
+        <!-- Filter pills -->
+        <div class="network-toolbar">
+          <div class="filter-pills" id="role-filter-pills">
+            <button type="button" class="filter-pill active" data-role="all">All Connections</button>
+          </div>
+        </div>
+
+        <!-- Contacts Grid -->
+        <div class="contacts-grid" id="contacts-container"></div>
+      </section>
     </section>
   </main>
+
+  <!-- Edit Contact Modal -->
+  <div class="modal-backdrop" id="edit-modal" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="edit-modal-title">Edit Connection</h3>
+        <button type="button" class="modal-close" id="close-edit-modal-btn" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form class="form" id="edit-contact-form">
+        <input type="hidden" id="edit-id">
+
+        <div class="input-group">
+          <label class="input-label" for="edit-name">Full name</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+            </span>
+            <input class="input-field" id="edit-name" required maxlength="50">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="edit-email">Email address</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <input class="input-field" id="edit-email" required type="email" maxlength="80">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="edit-role">Role or Company</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </span>
+            <input class="input-field" id="edit-role" maxlength="50">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="edit-phone">Phone number</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <input class="input-field" id="edit-phone" maxlength="30">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancel-edit-btn">Cancel</button>
+          <button type="submit" class="submit-btn" style="margin-top:0;">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-backdrop" id="delete-modal" role="dialog" aria-modal="true">
+    <div class="confirm-dialog">
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Remove Connection
+      </h3>
+      <p id="delete-confirm-text">Are you sure you want to remove this connection from your network orbit?</p>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="cancel-delete-btn">Cancel</button>
+        <button type="button" class="btn-danger" id="confirm-delete-btn">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Stack -->
+  <div class="toast-container" id="toast-container"></div>
+
   <script>
-    const seed=[{id:'demo-1',name:'Ava Morgan',email:'ava@northstar.co',role:'Product lead'},{id:'demo-2',name:'Samir Khan',email:'samir@atelier.dev',role:'Creative developer'},{id:'demo-3',name:'June Lee',email:'june@studio.one',role:'Design director'}];
-    let people=[],online=false;const list=document.querySelector('#contacts'),search=document.querySelector('#search'),count=document.querySelector('#count'),status=document.querySelector('#status'),mode=document.querySelector('#mode');
-    function cached(){try{return JSON.parse(localStorage.getItem('nexus-contacts'))||seed}catch{return seed}}
-    function save(){localStorage.setItem('nexus-contacts',JSON.stringify(people))}
-    function setMode(value){online=value;mode.textContent=value?'API connected':'offline mode';status.classList.toggle('offline',!value)}
-    async function request(url,options){const response=await fetch(url,{...options,headers:{'Content-Type':'application/json',...(options&&options.headers)}});const data=await response.json();if(!response.ok)throw new Error(data.error||'Request failed.');return data}
-    function render(){const q=search.value.trim().toLowerCase(),shown=people.filter(p=>(p.name+' '+p.email+' '+p.role).toLowerCase().includes(q));list.replaceChildren();count.textContent=people.length;if(!shown.length){const e=document.createElement('div');e.className='empty';e.textContent='No connections found.';list.append(e);return}shown.forEach(p=>{const card=document.createElement('article');card.className='person';const av=document.createElement('span');av.className='initial';av.textContent=p.name.split(/\s+/).map(v=>v[0]).join('').slice(0,2).toUpperCase();const info=document.createElement('span');info.className='info';const name=document.createElement('b');name.textContent=p.name;const meta=document.createElement('small');meta.textContent=p.role+' · '+p.email;info.append(name,meta);const del=document.createElement('button');del.className='delete';del.type='button';del.setAttribute('aria-label','Delete '+p.name);del.textContent='×';del.onclick=async()=>{try{if(online)await request('/api/contacts/'+p.id,{method:'DELETE'});people=people.filter(x=>x.id!==p.id);save();render()}catch(error){alert(error.message)}};card.append(av,info,del);list.append(card)})}
-    document.querySelector('#form').onsubmit=async e=>{e.preventDefault();const input={name:document.querySelector('#name').value.trim(),email:document.querySelector('#email').value.trim(),role:document.querySelector('#role').value.trim()||'New connection'};try{const contact=online?(await request('/api/contacts',{method:'POST',body:JSON.stringify(input)})).contact:{id:crypto.randomUUID(),...input};people.unshift(contact);save();e.target.reset();render()}catch(error){alert(error.message)}};
-    search.oninput=render;(async()=>{try{people=(await request('/api/contacts')).contacts;setMode(true)}catch{people=cached();setMode(false)}save();render()})();
+    'use strict';
+
+    // Seed contacts fallback
+    const seedContacts = [
+      { id: 'demo-1', name: 'Ava Morgan', email: 'ava@northstar.co', role: 'Product lead', phone: '+1 415 555 0192', createdAt: new Date().toISOString() },
+      { id: 'demo-2', name: 'Samir Khan', email: 'samir@atelier.dev', role: 'Creative developer', phone: '+1 415 555 0148', createdAt: new Date().toISOString() },
+      { id: 'demo-3', name: 'June Lee', email: 'june@studio.one', role: 'Design director', phone: '+1 415 555 0167', createdAt: new Date().toISOString() }
+    ];
+
+    // Vibrant curated gradient palettes for contact avatars & 3D nodes
+    const gradients = [
+      ['#6366f1', '#a855f7'],
+      ['#06b6d4', '#3b82f6'],
+      ['#ec4899', '#f43f5e'],
+      ['#10b981', '#059669'],
+      ['#f59e0b', '#ef4444'],
+      ['#8b5cf6', '#6366f1'],
+      ['#14b8a6', '#0ea5e9'],
+      ['#f97316', '#e11d48']
+    ];
+
+    function getGradient(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) hash = (hash << 5) - hash + str.charCodeAt(i);
+      const index = Math.abs(hash) % gradients.length;
+      return gradients[index];
+    }
+
+    // App State
+    let people = [];
+    let isOnline = false;
+    let selectedFilterRole = 'all';
+    let searchQuery = '';
+    let sortMode = 'newest';
+    let pendingDeleteId = null;
+
+    // DOM References
+    const contactsContainer = document.getElementById('contacts-container');
+    const searchInput = document.getElementById('search-input');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
+    const searchNetworkBtn = document.getElementById('search-network-btn');
+    const satelliteCountEl = document.getElementById('satellite-count');
+    const visibleCountBadge = document.getElementById('visible-count-badge');
+    const roleFilterPills = document.getElementById('role-filter-pills');
+    const sortSelect = document.getElementById('sort-select');
+    const apiStatusBadge = document.getElementById('api-status-badge');
+    const apiStatusText = document.getElementById('api-status-text');
+    const reconnectBtn = document.getElementById('reconnect-btn');
+    const exportJsonBtn = document.getElementById('export-json-btn');
+
+    // Modals
+    const editModal = document.getElementById('edit-modal');
+    const editForm = document.getElementById('edit-contact-form');
+    const closeEditModalBtn = document.getElementById('close-edit-modal-btn');
+    const cancelEditBtn = document.getElementById('cancel-edit-btn');
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteConfirmText = document.getElementById('delete-confirm-text');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    const toastContainer = document.getElementById('toast-container');
+
+    // Toast notifications
+    function showToast(message, type = 'info', duration = 3500) {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+
+      let icon = '';
+      if (type === 'success') {
+        icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+      } else if (type === 'error') {
+        icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
+      } else {
+        icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+      }
+
+      toast.innerHTML = `${icon}<span>${escapeHtml(message)}</span>`;
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('fade-out');
+        toast.addEventListener('animationend', () => toast.remove());
+      }, duration);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Local Storage Helpers
+    function getStoredContacts() {
+      try {
+        const stored = localStorage.getItem('nexus-contacts');
+        return stored ? JSON.parse(stored) : seedContacts;
+      } catch {
+        return seedContacts;
+      }
+    }
+
+    function saveToStorage() {
+      try {
+        localStorage.setItem('nexus-contacts', JSON.stringify(people));
+      } catch (e) {
+        console.error('Failed to save to local storage', e);
+      }
+    }
+
+    // API Request Client
+    async function apiRequest(endpoint, options = {}) {
+      const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+      const res = await fetch(endpoint, { ...options, headers });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || `HTTP error ${res.status}`);
+      }
+      return data;
+    }
+
+    function setOnlineStatus(online) {
+      isOnline = online;
+      apiStatusBadge.classList.toggle('offline', !online);
+      if (online) {
+        apiStatusText.textContent = 'API Connected';
+      } else {
+        apiStatusText.textContent = 'Offline Mode (Local)';
+      }
+    }
+
+    // Two-Way Sync between Local Storage and Backend API
+    async function syncWithServer() {
+      try {
+        const health = await apiRequest('/api/health');
+        if (health.status === 'ok') {
+          setOnlineStatus(true);
+
+          // Retrieve server contacts
+          const serverData = await apiRequest('/api/contacts');
+          const serverContacts = serverData.contacts || [];
+
+          // Detect any offline-created contacts not on server
+          const localContacts = getStoredContacts();
+          const serverEmails = new Set(serverContacts.map(c => c.email.toLowerCase()));
+          const serverIds = new Set(serverContacts.map(c => c.id));
+
+          let syncedCount = 0;
+          for (const local of localContacts) {
+            if (!serverEmails.has(local.email.toLowerCase()) && !serverIds.has(local.id)) {
+              try {
+                await apiRequest('/api/contacts', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    name: local.name,
+                    email: local.email,
+                    role: local.role,
+                    phone: local.phone || ''
+                  })
+                });
+                syncedCount++;
+              } catch {}
+            }
+          }
+
+          if (syncedCount > 0) {
+            showToast(`Synced ${syncedCount} offline connection${syncedCount > 1 ? 's' : ''} to server`, 'success');
+            const refreshed = await apiRequest('/api/contacts');
+            people = refreshed.contacts || [];
+          } else {
+            people = serverContacts;
+          }
+
+          saveToStorage();
+          updateUI();
+          return true;
+        }
+      } catch (err) {
+        setOnlineStatus(false);
+        people = getStoredContacts();
+        updateUI();
+        return false;
+      }
+    }
+
+    // Filter & Sort Pipeline
+    function getFilteredPeople() {
+      let list = [...people];
+      const q = searchQuery.trim().toLowerCase();
+
+      if (q) {
+        list = list.filter(p =>
+          (p.name + ' ' + p.email + ' ' + (p.role || '') + ' ' + (p.phone || '')).toLowerCase().includes(q)
+        );
+      }
+
+      if (selectedFilterRole !== 'all') {
+        list = list.filter(p => (p.role || '').toLowerCase() === selectedFilterRole.toLowerCase());
+      }
+
+      if (sortMode === 'name') {
+        list.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortMode === 'oldest') {
+        list.sort((a, b) => (a.createdAt || '').localeCompare(b.createdAt || ''));
+      } else {
+        // newest
+        list.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+      }
+
+      return list;
+    }
+
+    // Render Filter Pills dynamically
+    function renderFilterPills() {
+      const roles = new Set();
+      people.forEach(p => {
+        if (p.role && p.role.trim() && p.role !== 'New connection') {
+          roles.add(p.role.trim());
+        }
+      });
+
+      roleFilterPills.innerHTML = '';
+      const allBtn = document.createElement('button');
+      allBtn.type = 'button';
+      allBtn.className = `filter-pill ${selectedFilterRole === 'all' ? 'active' : ''}`;
+      allBtn.textContent = `All (${people.length})`;
+      allBtn.onclick = () => { selectedFilterRole = 'all'; updateUI(); };
+      roleFilterPills.appendChild(allBtn);
+
+      roles.forEach(role => {
+        const count = people.filter(p => p.role === role).length;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `filter-pill ${selectedFilterRole.toLowerCase() === role.toLowerCase() ? 'active' : ''}`;
+        btn.textContent = `${role} (${count})`;
+        btn.onclick = () => { selectedFilterRole = role; updateUI(); };
+        roleFilterPills.appendChild(btn);
+      });
+    }
+
+    // Render Contact Cards
+    function renderContactsList(items) {
+      contactsContainer.replaceChildren();
+      visibleCountBadge.textContent = items.length;
+      satelliteCountEl.textContent = people.length;
+
+      if (!items.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <h3>No connections found</h3>
+          <p>${searchQuery ? 'Try adjusting your search criteria or role filters.' : 'Add your first connection on the left to start building your orbit.'}</p>
+        `;
+        contactsContainer.appendChild(empty);
+        return;
+      }
+
+      items.forEach(person => {
+        const [grad1, grad2] = getGradient(person.id || person.name);
+        const initials = person.name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+        const card = document.createElement('article');
+        card.className = 'contact-card';
+        card.id = `card-${person.id}`;
+
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="card-avatar" style="background: linear-gradient(135deg, ${grad1}, ${grad2});">
+              ${escapeHtml(initials)}
+            </div>
+            <div class="card-main">
+              <div class="card-name" title="${escapeHtml(person.name)}">${escapeHtml(person.name)}</div>
+              <div class="card-role" title="${escapeHtml(person.role || 'New connection')}">${escapeHtml(person.role || 'New connection')}</div>
+            </div>
+          </div>
+
+          <div class="card-details">
+            <div class="detail-row">
+              <a class="detail-link" href="mailto:${escapeHtml(person.email)}" title="Send email">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>${escapeHtml(person.email)}</span>
+              </a>
+              <button type="button" class="copy-btn copy-email" data-email="${escapeHtml(person.email)}" title="Copy email">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+
+            ${person.phone ? `
+            <div class="detail-row">
+              <a class="detail-link" href="tel:${escapeHtml(person.phone)}" title="Call phone">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span>${escapeHtml(person.phone)}</span>
+              </a>
+              <button type="button" class="copy-btn copy-phone" data-phone="${escapeHtml(person.phone)}" title="Copy phone">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            ` : ''}
+          </div>
+
+          <div class="card-actions">
+            <button type="button" class="action-btn orbit-focus" data-id="${person.id}" title="Focus in 3D Constellation">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+              3D Orbit
+            </button>
+            <button type="button" class="action-btn edit" data-id="${person.id}" title="Edit connection details">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Edit
+            </button>
+            <button type="button" class="action-btn delete" data-id="${person.id}" title="Remove connection">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        `;
+
+        // Event listeners for card buttons
+        card.querySelector('.copy-email').onclick = (e) => {
+          e.stopPropagation();
+          navigator.clipboard.writeText(person.email);
+          showToast('Email copied to clipboard', 'success', 2000);
+        };
+
+        const copyPhone = card.querySelector('.copy-phone');
+        if (copyPhone) {
+          copyPhone.onclick = (e) => {
+            e.stopPropagation();
+            navigator.clipboard.writeText(person.phone);
+            showToast('Phone copied to clipboard', 'success', 2000);
+          };
+        }
+
+        card.querySelector('.edit').onclick = () => openEditModal(person);
+        card.querySelector('.delete').onclick = () => openDeleteModal(person);
+        card.querySelector('.orbit-focus').onclick = () => focusNodeIn3D(person.id);
+
+        contactsContainer.appendChild(card);
+      });
+    }
+
+    function updateUI() {
+      const filtered = getFilteredPeople();
+      renderContactsList(filtered);
+      renderFilterPills();
+      updateConstellationNodes();
+    }
+
+    // Add New Contact Handler
+    document.getElementById('create-contact-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById('new-name');
+      const emailInput = document.getElementById('new-email');
+      const roleInput = document.getElementById('new-role');
+      const phoneInput = document.getElementById('new-phone');
+
+      const payload = {
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim().toLowerCase(),
+        role: roleInput.value.trim() || 'New connection',
+        phone: phoneInput.value.trim()
+      };
+
+      // Client duplicate email check
+      if (people.some(p => p.email.toLowerCase() === payload.email)) {
+        showToast('A connection with this email already exists.', 'error');
+        return;
+      }
+
+      try {
+        let contact;
+        if (isOnline) {
+          const res = await apiRequest('/api/contacts', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+          contact = res.contact;
+        } else {
+          contact = {
+            id: 'local-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+            ...payload,
+            createdAt: new Date().toISOString()
+          };
+        }
+
+        people.unshift(contact);
+        saveToStorage();
+        updateUI();
+        e.target.reset();
+        showToast(`Added ${contact.name} to orbit!`, 'success');
+
+        // Trigger burst animation in 3D
+        focusNodeIn3D(contact.id);
+      } catch (err) {
+        showToast(err.message || 'Failed to add connection', 'error');
+      }
+    };
+
+    // Edit Contact Handlers
+    function openEditModal(person) {
+      document.getElementById('edit-id').value = person.id;
+      document.getElementById('edit-name').value = person.name;
+      document.getElementById('edit-email').value = person.email;
+      document.getElementById('edit-role').value = person.role || '';
+      document.getElementById('edit-phone').value = person.phone || '';
+      editModal.classList.add('open');
+    }
+
+    function closeEditModal() {
+      editModal.classList.remove('open');
+    }
+
+    closeEditModalBtn.onclick = closeEditModal;
+    cancelEditBtn.onclick = closeEditModal;
+    editModal.onclick = (e) => { if (e.target === editModal) closeEditModal(); };
+
+    editForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('edit-id').value;
+      const payload = {
+        name: document.getElementById('edit-name').value.trim(),
+        email: document.getElementById('edit-email').value.trim().toLowerCase(),
+        role: document.getElementById('edit-role').value.trim() || 'New connection',
+        phone: document.getElementById('edit-phone').value.trim()
+      };
+
+      const existingIndex = people.findIndex(p => p.id === id);
+      if (existingIndex < 0) return;
+
+      // Duplicate check
+      if (people.some((p, idx) => idx !== existingIndex && p.email.toLowerCase() === payload.email)) {
+        showToast('A contact with this email already exists.', 'error');
+        return;
+      }
+
+      try {
+        let updated;
+        if (isOnline) {
+          const res = await apiRequest(`/api/contacts/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(payload)
+          });
+          updated = res.contact;
+        } else {
+          updated = { ...people[existingIndex], ...payload, updatedAt: new Date().toISOString() };
+        }
+
+        people[existingIndex] = updated;
+        saveToStorage();
+        updateUI();
+        closeEditModal();
+        showToast('Connection details updated!', 'success');
+      } catch (err) {
+        showToast(err.message || 'Failed to update connection', 'error');
+      }
+    };
+
+    // Delete Contact Handlers
+    function openDeleteModal(person) {
+      pendingDeleteId = person.id;
+      deleteConfirmText.textContent = `Are you sure you want to remove ${person.name} from your network orbit?`;
+      deleteModal.classList.add('open');
+    }
+
+    function closeDeleteModal() {
+      deleteModal.classList.remove('open');
+      pendingDeleteId = null;
+    }
+
+    cancelDeleteBtn.onclick = closeDeleteModal;
+    deleteModal.onclick = (e) => { if (e.target === deleteModal) closeDeleteModal(); };
+
+    confirmDeleteBtn.onclick = async () => {
+      if (!pendingDeleteId) return;
+      const id = pendingDeleteId;
+      const victim = people.find(p => p.id === id);
+      const victimName = victim ? victim.name : 'Connection';
+
+      try {
+        if (isOnline) {
+          await apiRequest(`/api/contacts/${id}`, { method: 'DELETE' });
+        }
+        people = people.filter(p => p.id !== id);
+        saveToStorage();
+        updateUI();
+        closeDeleteModal();
+        showToast(`Removed ${victimName} from network`, 'info');
+      } catch (err) {
+        showToast(err.message || 'Failed to delete connection', 'error');
+      }
+    };
+
+    // Search and Input Handlers
+    let searchDebounce = null;
+    searchInput.oninput = () => {
+      searchQuery = searchInput.value;
+      clearSearchBtn.style.display = searchQuery ? 'block' : 'none';
+      clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(async () => {
+        if (isOnline && searchQuery.trim()) {
+          try {
+            const data = await apiRequest(`/api/contacts?q=${encodeURIComponent(searchQuery.trim())}`);
+            // If server returned search results, update list
+            renderContactsList(data.contacts || []);
+            renderFilterPills();
+            updateConstellationNodes();
+            return;
+          } catch {}
+        }
+        updateUI();
+      }, 150);
+    };
+
+    searchNetworkBtn.onclick = () => {
+      searchInput.focus();
+      updateUI();
+      showToast(searchQuery ? `Searching for "${searchQuery}"...` : 'Showing all connections', 'info', 1500);
+    };
+
+    clearSearchBtn.onclick = () => {
+      searchInput.value = '';
+      searchQuery = '';
+      clearSearchBtn.style.display = 'none';
+      updateUI();
+    };
+
+    sortSelect.onchange = () => {
+      sortMode = sortSelect.value;
+      updateUI();
+    };
+
+    reconnectBtn.onclick = async () => {
+      showToast('Attempting to reconnect to REST API...', 'info', 2000);
+      const ok = await syncWithServer();
+      if (ok) {
+        showToast('Successfully connected to Nexus REST API!', 'success');
+      } else {
+        showToast('Could not reach API server. Continuing in offline mode.', 'error');
+      }
+    };
+
+    exportJsonBtn.onclick = () => {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(people, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', `nexus-contacts-${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('Exported contacts to JSON file', 'success');
+    };
+
+    // Keyboard shortcuts: Escape to close modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeEditModal();
+        closeDeleteModal();
+      }
+    });
+
+    /* ==========================================================================
+       INTERACTIVE 3D CONSTELLATION SPHERE ENGINE (Canvas 2D + 3D Projection)
+       ========================================================================== */
+    const canvas = document.getElementById('universe-canvas');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('node-tooltip');
+    const tooltipName = document.getElementById('tooltip-name');
+    const tooltipRole = document.getElementById('tooltip-role');
+    const tooltipMeta = document.getElementById('tooltip-meta');
+    const toggleSpinBtn = document.getElementById('toggle-spin-btn');
+    const resetViewBtn = document.getElementById('reset-view-btn');
+
+    let canvasWidth = 0;
+    let canvasHeight = 0;
+    let sphereRadius = 150;
+    let cameraDistance = 340;
+
+    // Rotation state
+    let rotX = 0.2;
+    let rotY = 0;
+    let targetRotX = 0.2;
+    let targetRotY = 0;
+    let velX = 0;
+    let velY = 0.003; // auto-rotation speed
+    let isAutoSpin = true;
+    let isDragging = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    let hoveredNode = null;
+
+    // 3D Nodes array
+    let constellationNodes = [];
+
+    // Background ambient particle dust
+    const ambientStars = Array.from({ length: 60 }, () => ({
+      x: (Math.random() - 0.5) * 500,
+      y: (Math.random() - 0.5) * 500,
+      z: (Math.random() - 0.5) * 500,
+      size: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.5 + 0.2
+    }));
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvasWidth = rect.width;
+      canvasHeight = rect.height;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      sphereRadius = Math.min(rect.width, rect.height) * 0.34;
+      cameraDistance = sphereRadius * 2.3;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    // Generate spherical coordinates for contacts
+    function updateConstellationNodes() {
+      const count = people.length;
+      const goldenRatio = (1 + Math.sqrt(5)) / 2;
+
+      const filteredIds = new Set(getFilteredPeople().map(p => p.id));
+
+      const newNodes = people.map((person, i) => {
+        // Fibonacci sphere algorithm for even 3D distribution
+        const theta = 2 * Math.PI * i / goldenRatio;
+        const phi = Math.acos(1 - 2 * (i + 0.5) / Math.max(count, 1));
+
+        const [g1, g2] = getGradient(person.id || person.name);
+        const initials = person.name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+        // Preserve existing rotation or animation phase if node exists
+        const existing = constellationNodes.find(n => n.id === person.id);
+
+        return {
+          id: person.id,
+          name: person.name,
+          role: person.role || 'New connection',
+          email: person.email,
+          phone: person.phone || '',
+          initials,
+          g1,
+          g2,
+          phi,
+          theta,
+          isFiltered: filteredIds.has(person.id),
+          pulsePhase: existing ? existing.pulsePhase : Math.random() * Math.PI * 2,
+          projX: 0,
+          projY: 0,
+          projScale: 1,
+          projZ: 0
+        };
+      });
+
+      constellationNodes = newNodes;
+    }
+
+    // Focus camera on a specific node in 3D
+    function focusNodeIn3D(id) {
+      const node = constellationNodes.find(n => n.id === id);
+      if (!node) return;
+
+      // Calculate rotation that brings this node directly facing the camera
+      const x = Math.sin(node.phi) * Math.cos(node.theta);
+      const y = Math.cos(node.phi);
+      const z = Math.sin(node.phi) * Math.sin(node.theta);
+
+      targetRotY = -Math.atan2(x, z);
+      targetRotX = Math.asin(y / 1.0);
+      isAutoSpin = false;
+
+      // Scroll and highlight card in list
+      const card = document.getElementById(`card-${id}`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('highlighted');
+        setTimeout(() => card.classList.remove('highlighted'), 2000);
+      }
+    }
+
+    // 3D Render Loop
+    function render3D() {
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+      const cx = canvasWidth / 2;
+      const cy = canvasHeight / 2;
+
+      // Inertia and Rotation Update
+      if (isAutoSpin && !isDragging) {
+        targetRotY += velY;
+      }
+      rotX += (targetRotX - rotX) * 0.1;
+      rotY += (targetRotY - rotY) * 0.1;
+
+      const cosX = Math.cos(rotX);
+      const sinX = Math.sin(rotX);
+      const cosY = Math.cos(rotY);
+      const sinY = Math.sin(rotY);
+
+      // 1. Draw Celestial Glowing Core & Background Orbit Rings
+      const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, sphereRadius * 0.95);
+      coreGrad.addColorStop(0, 'rgba(99, 102, 241, 0.14)');
+      coreGrad.addColorStop(0.5, 'rgba(56, 189, 248, 0.06)');
+      coreGrad.addColorStop(1, 'rgba(11, 15, 25, 0)');
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, sphereRadius * 1.1, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw 3D Ambient Dust
+      ambientStars.forEach(star => {
+        // Rotate star in 3D
+        const x1 = star.x * cosY + star.z * sinY;
+        const z1 = -star.x * sinY + star.z * cosY;
+        const y1 = star.y * cosX - z1 * sinX;
+        const z2 = star.y * sinX + z1 * cosX;
+
+        const k = cameraDistance / (cameraDistance + z2);
+        if (k > 0) {
+          const sx = cx + x1 * k;
+          const sy = cy + y1 * k;
+          ctx.fillStyle = `rgba(148, 163, 184, ${star.alpha * k})`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, star.size * k, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      // Draw 3D Orbital Equator Ring
+      ctx.strokeStyle = 'rgba(129, 140, 248, 0.22)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      const ringSteps = 48;
+      for (let i = 0; i <= ringSteps; i++) {
+        const angle = (i / ringSteps) * Math.PI * 2;
+        const rx = Math.cos(angle) * sphereRadius * 1.05;
+        const rz = Math.sin(angle) * sphereRadius * 1.05;
+        const ry = 0;
+
+        const x1 = rx * cosY + rz * sinY;
+        const z1 = -rx * sinY + rz * cosY;
+        const y2 = ry * cosX - z1 * sinX;
+        const z2 = ry * sinX + z1 * cosX;
+
+        const k = cameraDistance / (cameraDistance + z2);
+        const px = cx + x1 * k;
+        const py = cy + y2 * k;
+
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.stroke();
+
+      // 2. Project Nodes to 3D Space
+      const renderedNodes = [];
+
+      constellationNodes.forEach(node => {
+        node.pulsePhase += 0.04;
+
+        // Spherical coordinate conversion
+        const nx = Math.sin(node.phi) * Math.cos(node.theta) * sphereRadius;
+        const ny = Math.cos(node.phi) * sphereRadius;
+        const nz = Math.sin(node.phi) * Math.sin(node.theta) * sphereRadius;
+
+        // Apply pitch (rotX) and yaw (rotY)
+        const x1 = nx * cosY + nz * sinY;
+        const z1 = -nx * sinY + nz * cosY;
+        const y2 = ny * cosX - z1 * sinX;
+        const z2 = ny * sinX + z1 * cosX;
+
+        // Perspective projection formula
+        const k = cameraDistance / (cameraDistance + z2);
+        node.projX = cx + x1 * k;
+        node.projY = cy + y2 * k;
+        node.projZ = z2;
+        node.projScale = k;
+
+        renderedNodes.push(node);
+      });
+
+      // 3. Draw Connecting Filaments between adjacent nodes
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i < renderedNodes.length; i++) {
+        for (let j = i + 1; j < renderedNodes.length; j++) {
+          const a = renderedNodes[i];
+          const b = renderedNodes[j];
+          const distSq = (a.projX - b.projX) ** 2 + (a.projY - b.projY) ** 2;
+          if (distSq < 130 * 130) {
+            const alpha = (1 - Math.sqrt(distSq) / 130) * 0.28 * Math.min(a.projScale, b.projScale);
+            ctx.strokeStyle = `rgba(129, 140, 248, ${alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(a.projX, a.projY);
+            ctx.lineTo(b.projX, b.projY);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 4. Sort Nodes by Depth (Z-buffer / Painters algorithm)
+      renderedNodes.sort((a, b) => a.projZ - b.projZ);
+
+      // 5. Draw 3D Nodes
+      renderedNodes.forEach(node => {
+        const isHovered = (hoveredNode && hoveredNode.id === node.id);
+        const radius = (isHovered ? 24 : 18) * node.projScale;
+        const opacity = node.isFiltered ? Math.max(0.25, (node.projZ + sphereRadius) / (sphereRadius * 2) * 0.8 + 0.2) : 0.15;
+
+        ctx.save();
+        ctx.translate(node.projX, node.projY);
+
+        // Glow halo for close or hovered nodes
+        if (isHovered || node.projScale > 1.05) {
+          const glowRad = radius * (isHovered ? 2.2 : 1.6);
+          const glow = ctx.createRadialGradient(0, 0, radius * 0.5, 0, 0, glowRad);
+          glow.addColorStop(0, `${node.g1}88`);
+          glow.addColorStop(1, `${node.g2}00`);
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(0, 0, glowRad, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Outer badge circle
+        const nodeGrad = ctx.createLinearGradient(-radius, -radius, radius, radius);
+        nodeGrad.addColorStop(0, node.g1);
+        nodeGrad.addColorStop(1, node.g2);
+
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = nodeGrad;
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // White border
+        ctx.strokeStyle = isHovered ? '#ffffff' : 'rgba(255, 255, 255, 0.4)';
+        ctx.lineWidth = (isHovered ? 2.5 : 1.5) * node.projScale;
+        ctx.stroke();
+
+        // Initials Text
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `bold ${Math.max(9, Math.round(11 * node.projScale))}px 'Space Grotesk', sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(node.initials, 0, 1);
+
+        ctx.restore();
+      });
+
+      requestAnimationFrame(render3D);
+    }
+
+    // Mouse & Pointer Interactions on 3D Canvas
+    canvas.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      isAutoSpin = false;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      if (isDragging) {
+        const dx = e.clientX - lastMouseX;
+        const dy = e.clientY - lastMouseY;
+        targetRotY += dx * 0.007;
+        targetRotX += dy * 0.007;
+        targetRotX = Math.max(-Math.PI / 2.2, Math.min(Math.PI / 2.2, targetRotX));
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        tooltip.classList.remove('visible');
+        return;
+      }
+
+      // Raycasting / Hover Detection
+      let found = null;
+      for (let i = constellationNodes.length - 1; i >= 0; i--) {
+        const node = constellationNodes[i];
+        const dist = Math.hypot(mouseX - node.projX, mouseY - node.projY);
+        if (dist < 22 * node.projScale) {
+          found = node;
+          break;
+        }
+      }
+
+      if (found !== hoveredNode) {
+        hoveredNode = found;
+        if (found) {
+          canvas.style.cursor = 'pointer';
+          tooltipName.textContent = found.name;
+          tooltipRole.textContent = found.role;
+          tooltipMeta.textContent = `${found.email}${found.phone ? ' • ' + found.phone : ''}`;
+          tooltip.style.left = `${found.projX}px`;
+          tooltip.style.top = `${found.projY - 14}px`;
+          tooltip.classList.add('visible');
+        } else {
+          canvas.style.cursor = 'grab';
+          tooltip.classList.remove('visible');
+        }
+      } else if (found) {
+        tooltip.style.left = `${found.projX}px`;
+        tooltip.style.top = `${found.projY - 14}px`;
+      }
+    });
+
+    window.addEventListener('pointerup', () => {
+      if (isDragging) {
+        isDragging = false;
+        // Resume gentle auto-spin after 3 seconds of inactivity
+        setTimeout(() => { isAutoSpin = true; }, 3000);
+      }
+    });
+
+    // Clicking a node in 3D Canvas
+    canvas.addEventListener('click', (e) => {
+      if (hoveredNode) {
+        focusNodeIn3D(hoveredNode.id);
+        showToast(`Selected ${hoveredNode.name}`, 'info', 1800);
+      }
+    });
+
+    // Zoom via mouse wheel
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      cameraDistance = Math.max(sphereRadius * 1.5, Math.min(sphereRadius * 4.5, cameraDistance + e.deltaY * 0.25));
+    }, { passive: false });
+
+    // HUD Button Handlers
+    toggleSpinBtn.onclick = () => {
+      isAutoSpin = !isAutoSpin;
+      toggleSpinBtn.style.color = isAutoSpin ? 'var(--violet)' : 'var(--ink-muted)';
+      showToast(isAutoSpin ? 'Auto-rotation resumed' : 'Auto-rotation paused', 'info', 1500);
+    };
+
+    resetViewBtn.onclick = () => {
+      targetRotX = 0.2;
+      targetRotY = 0;
+      cameraDistance = sphereRadius * 2.3;
+      isAutoSpin = true;
+      showToast('View reset to standard orbit', 'info', 1500);
+    };
+
+    // Initialize Application
+    (async function init() {
+      resizeCanvas();
+      await syncWithServer();
+      render3D();
+
+      // Health ping every 12 seconds
+      setInterval(async () => {
+        try {
+          const res = await apiRequest('/api/health');
+          if (res.status === 'ok' && !isOnline) {
+            showToast('Reconnected to REST API! Syncing changes...', 'success');
+            await syncWithServer();
+          }
+        } catch {
+          if (isOnline) {
+            setOnlineStatus(false);
+          }
+        }
+      }, 12000);
+    })();
   </script>
 </body>
 </html>
